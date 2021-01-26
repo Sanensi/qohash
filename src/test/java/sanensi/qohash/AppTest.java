@@ -1,4 +1,4 @@
-package sanensi;
+package sanensi.qohash;
 
 import org.junit.jupiter.api.Test;
 
