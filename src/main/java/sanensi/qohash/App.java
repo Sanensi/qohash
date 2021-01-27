@@ -5,6 +5,8 @@ import sanensi.qohash.domain.DirEntry;
 import sanensi.qohash.domain.FileSystem;
 
 import java.nio.file.Path;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -33,12 +35,16 @@ public class App implements Callable<Integer> {
 
         System.out.println("\n" + root.toAbsolutePath());
         System.out.println("Number of entries: " + dirEntries.size());
-        System.out.println("Total size: " + totalSize + "\n");
+        System.out.println("Total size: " + totalSize + " bytes\n");
         dirEntries.forEach(e -> System.out.println(this.formatDirEntry(e)));
     }
 
     private String formatDirEntry(DirEntry e) {
-        return String.format("%12d  %-28s %s", e.size, e.fileTime, e.path);
+        DateTimeFormatter formatter = DateTimeFormatter
+            .ofPattern("yyyy-MM-dd")
+            .withZone(ZoneId.systemDefault());
+
+        return String.format("%8d  %s %s", e.size, formatter.format(e.fileTime.toInstant()), e.path);
     }
 
     public static void main(String[] args) {
