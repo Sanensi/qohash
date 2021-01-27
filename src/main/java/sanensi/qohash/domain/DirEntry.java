@@ -6,11 +6,11 @@ import java.nio.file.attribute.FileTime;
 public class DirEntry {
     public final Path path;
     public final long size;
-    public final FileTime fileTime;
+    public final FileTime lastModified;
 
     public DirEntry(Path path, long size, FileTime fileTime) {
         this.path = path;
         this.size = size;
-        this.fileTime = fileTime;
+        this.lastModified = fileTime;
     }
 }

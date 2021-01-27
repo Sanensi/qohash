@@ -44,7 +44,7 @@ public class App implements Callable<Integer> {
             .ofPattern("yyyy-MM-dd")
             .withZone(ZoneId.systemDefault());
 
-        return String.format("%8d  %s %s", e.size, formatter.format(e.fileTime.toInstant()), e.path);
+        return String.format("%8d  %s %s", e.size, formatter.format(e.lastModified.toInstant()), e.path);
     }
 
     public static void main(String[] args) {
