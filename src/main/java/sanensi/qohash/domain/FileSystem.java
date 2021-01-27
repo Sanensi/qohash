@@ -8,11 +8,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FileSystem {
-    public static List<DirEntry> getDirEntries(Path path) {
+    private final Path root;
+
+    public FileSystem(Path root) {
+        this.root = root;
+    }
+
+    public List<DirEntry> getDirEntries(Path path) {
         try {
-            return Files.walk(path, 1)
+            return Files.walk(root.resolve(path), 1)
                 .filter(p -> !path.equals(p))
-                .map(FileSystem::toDirEntry)
+                .map(this::toDirEntry)
                 .sorted(Comparator.comparingLong((DirEntry e) -> e.size).reversed())
                 .collect(Collectors.toList());
         }
@@ -21,10 +27,10 @@ public class FileSystem {
         }
     }
 
-    private static DirEntry toDirEntry(Path path) {
+    private DirEntry toDirEntry(Path path) {
         try {
             return new DirEntry(
-                path,
+                root.relativize(path),
                 Files.size(path),
                 Files.getLastModifiedTime(path)
             );

@@ -19,18 +19,23 @@ public class App implements Callable<Integer> {
     )
     Path root;
 
+    @CommandLine.Option(names = {"-d", "--display"}, description = "display the folder content in the console instead of serving it")
+    boolean display = false;
+
     @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "display this help message")
     boolean help;
 
     @Override
     public Integer call() {
-        display();
+        FileSystem fs = new FileSystem(root);
+
+        if (display) display(fs.getDirEntries(Path.of("")));
+        else new Api(fs).run();
 
         return 0;
     }
 
-    private void display() {
-        List<DirEntry> dirEntries = FileSystem.getDirEntries(root);
+    private void display(List<DirEntry> dirEntries) {
         long totalSize = dirEntries.stream().mapToLong(e -> e.size).sum();
 
         System.out.println("\n" + root.toAbsolutePath());
