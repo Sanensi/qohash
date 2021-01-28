@@ -32,7 +32,8 @@ public class FileSystem {
             return new DirEntry(
                 root.relativize(path),
                 Files.size(path),
-                Files.getLastModifiedTime(path)
+                Files.getLastModifiedTime(path),
+                Files.isDirectory(path)
             );
         }
         catch (IOException e) {

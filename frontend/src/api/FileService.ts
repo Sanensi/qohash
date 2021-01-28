@@ -1,7 +1,8 @@
 export interface DirEntry {
   path: string,
   size: number,
-  lastModified: string
+  lastModified: string,
+  isDirectory: boolean,
 }
 
 const FileService = {

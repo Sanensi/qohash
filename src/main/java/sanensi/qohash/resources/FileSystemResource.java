@@ -40,7 +40,8 @@ public class FileSystemResource {
         return new DirEntryResponse(
             entry.path.toString(),
             entry.size,
-            entry.lastModified.toString()
+            entry.lastModified.toString(),
+            entry.isDir
         );
     }
 }

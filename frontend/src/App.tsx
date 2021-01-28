@@ -1,9 +1,10 @@
-import { Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Container, Box } from "@material-ui/core";
+import { Typography, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Container, Box, Link } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import FileService, { DirEntry } from "./api/FileService";
 
 interface Props {
   path: string;
+  onFolderChange: (path: string) => void;
 }
 
 function App(props: Props) {
@@ -45,7 +46,11 @@ function App(props: Props) {
           <TableBody>
             {files.map((f) => (
               <TableRow key={f.path}>
-                <TableCell component="th" scope="row">{f.path}</TableCell>
+                <TableCell component="th" scope="row">
+                  {!f.isDirectory
+                    ? f.path
+                    : <Link style={{cursor: "pointer"}} onClick={() => props.onFolderChange(f.path)}>{f.path}</Link>}
+                </TableCell>
                 <TableCell align="right">{f.size}</TableCell>
                 <TableCell align="right">{new Date(f.lastModified).toDateString()}</TableCell>
               </TableRow>
