@@ -15,9 +15,11 @@ public class FileSystem {
     }
 
     public List<DirEntry> getDirEntries(Path path) {
+        Path fullPath = root.resolve(path);
+
         try {
-            return Files.walk(root.resolve(path), 1)
-                .filter(p -> !path.equals(p))
+            return Files.walk(fullPath, 1)
+                .filter(p -> !fullPath.equals(p))
                 .map(this::toDirEntry)
                 .sorted(Comparator.comparingLong((DirEntry e) -> e.size).reversed())
                 .collect(Collectors.toList());
