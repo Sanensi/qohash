@@ -7,10 +7,12 @@ public class DirEntry {
     public final Path path;
     public final long size;
     public final FileTime lastModified;
+    public final boolean isDir;
 
-    public DirEntry(Path path, long size, FileTime fileTime) {
+    public DirEntry(Path path, long size, FileTime fileTime, boolean isDir) {
         this.path = path;
         this.size = size;
         this.lastModified = fileTime;
+        this.isDir = isDir;
     }
 }
