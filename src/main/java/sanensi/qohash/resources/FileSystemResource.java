@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@javax.ws.rs.Path("/files")
+@javax.ws.rs.Path("/")
 public class FileSystemResource {
     @Inject
     private FileSystem fs;
