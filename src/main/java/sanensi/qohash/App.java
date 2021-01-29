@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-@CommandLine.Command(name = "qohash")
+@CommandLine.Command(name = "qohash", sortOptions = false)
 public class App implements Callable<Integer> {
     @CommandLine.Parameters(
         paramLabel = "ROOT",
@@ -19,15 +19,18 @@ public class App implements Callable<Integer> {
     )
     Path root;
 
-    @CommandLine.Option(names = {"-d", "--display"}, description = "display the folder content in the console instead of serving it")
+    @CommandLine.Option(names = {"-d", "--display"}, description = "display the folder content in the console")
     boolean display = false;
+
+    @CommandLine.Option(names = {"-r", "--recursive-size"}, description = "calculate folder size recursively")
+    boolean recursiveSize = false;
 
     @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "display this help message")
     boolean help;
 
     @Override
     public Integer call() {
-        FileSystem fs = new FileSystem(root);
+        FileSystem fs = new FileSystem(root, recursiveSize);
 
         if (display) display(fs.getDirEntries(Path.of("")));
         else new Api(fs).run();
