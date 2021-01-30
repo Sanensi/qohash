@@ -22,6 +22,7 @@ public class FileSystem {
         try {
             return Files.walk(fullPath, 1)
                 .filter(p -> !fullPath.equals(p))
+                .filter(Files::exists)
                 .map(this::toDirEntry)
                 .sorted(Comparator.comparingLong((DirEntry e) -> e.size).reversed())
                 .collect(Collectors.toList());
@@ -59,7 +60,7 @@ public class FileSystem {
             return Files.size(path);
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            return 0;
         }
     }
 }
